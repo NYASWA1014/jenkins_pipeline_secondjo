@@ -1,70 +1,57 @@
-Started by user JOHN NYAKUNDI
-[Pipeline] Start of Pipeline
-[Pipeline] node
-Running on Jenkins in C:\ProgramData\Jenkins\.jenkins\workspace\jenkins_pipeline_secondjob
-[Pipeline] {
-[Pipeline] stage
-[Pipeline] { (Build)
-[Pipeline] echo
-Building the project completed
-[Pipeline] echo
-Tool: Maven
-[Pipeline] }
-[Pipeline] // stage
-[Pipeline] stage
-[Pipeline] { (Unit and Integration Tests)
-[Pipeline] echo
-Running unit and integration tests completed
-[Pipeline] echo
-Tools: JUnit, TestNG
-[Pipeline] }
-[Pipeline] // stage
-[Pipeline] stage
-[Pipeline] { (Code Analysis)
-[Pipeline] echo
-Performing code analysis completed
-[Pipeline] echo
-Tool: SonarQube
-[Pipeline] }
-[Pipeline] // stage
-[Pipeline] stage
-[Pipeline] { (Security Scan)
-[Pipeline] echo
-Running security scan completed
-[Pipeline] echo
-Tool: OWASP Dependency-Check
-[Pipeline] }
-[Pipeline] // stage
-[Pipeline] stage
-[Pipeline] { (Deploy to Staging)
-[Pipeline] echo
-Deploying to staging server completed
-[Pipeline] echo
-Deployment Server: AWS EC2 (Staging)
-[Pipeline] }
-[Pipeline] // stage
-[Pipeline] stage
-[Pipeline] { (Integration Tests on Staging)
-[Pipeline] echo
-Running integration tests on the staging environment completed
-[Pipeline] echo
-Tools: Selenium, Cucumber
-[Pipeline] }
-[Pipeline] // stage
-[Pipeline] stage
-[Pipeline] { (Deploy to Production)
-[Pipeline] echo
-Deploying to production server completed
-[Pipeline] echo
-Deployment Server: AWS EC2 (Production)
-[Pipeline] }
-[Pipeline] // stage
-[Pipeline] stage
-[Pipeline] { (Declarative: Post Actions)
-[Pipeline] mail
-[Pipeline] }
-[Pipeline] // stage
-[Pipeline] }
-[Pipeline] // node
-[Pipeline] End of Pipeline
-Finished: SUCCESS
+pipeline {
+    agent any
+
+    stages {
+        stage('Build') {
+            steps {
+                echo 'Building the project completed'
+                echo 'Tool: Maven'
+            }
+        }
+        stage('Unit and Integration Tests') {
+            steps {
+                echo 'Running unit and integration tests completed'
+                echo 'Tools: JUnit, TestNG'
+            }
+        }
+        stage('Code Analysis') {
+            steps {
+                echo 'Performing code analysis completed'
+                echo 'Tool: SonarQube'
+            }
+        }
+        stage('Security Scan') {
+            steps {
+                echo 'Running security scan completed'
+                echo 'Tool: OWASP Dependency-Check'
+            }
+        }
+        stage('Deploy to Staging') {
+            steps {
+                echo 'Deploying to staging server completed'
+                echo 'Deployment Server: AWS EC2 (Staging)'
+            }
+        }
+        stage('Integration Tests on Staging') {
+            steps {
+                echo 'Running integration tests on the staging environment completed'
+                echo 'Tools: Selenium, Cucumber'
+            }
+        }
+        stage('Deploy to Production') {
+            steps {
+                echo 'Deploying to production server completed'
+                echo 'Deployment Server: AWS EC2 (Production)'
+            }
+        }
+    }
+
+    post {
+        success {
+            mail to: 'jnswanya@gmail.com',
+                 subject: "Build status Email",
+                 body: "Build was successful."
+        }
+    }
+}
+
